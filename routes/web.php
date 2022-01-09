@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,4 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [PostController::class, 'index']);
+Route::get('/post/{post:post_slug}', [PostController::class, 'show']);
+Route::get('/category/{category:cat_slug}', function (Category $category)
+{
+    $data['posts'] = $category->posts->load(['category','author']);
+    return view('posts.index', $data);
+});

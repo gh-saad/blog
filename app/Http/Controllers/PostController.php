@@ -2,9 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    //
+    public function index()
+    {
+        $data['posts'] = Post::latest()->get();
+        return view('posts.index', $data);
+    }
+
+    public function show(Post $post)
+    {
+        return view('posts.show', ['post' => $post]);
+    }
 }
